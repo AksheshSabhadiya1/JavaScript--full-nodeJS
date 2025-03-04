@@ -28,37 +28,30 @@ const userRequestHandler = (req, res)=>{
 
       const body = []
       req.on('data', chunk => {
-        console.log(chunk);           //Output: <Buffer 75 73 65 72 6e 61 6d 65 3d 41 6b 73 68 75 2b 73 61 62 68 61 64 69 79 ...>
         body.push(chunk)
       })
 
       req.on('end', ()=>{
         const fullBody = Buffer.concat(body).toString()
-        console.log(fullBody);                        //Output: username=Akshu+sabhadiya&gender=male
-
         const params = new URLSearchParams(fullBody)
-        console.log(params);                          //Output: URLSearchParams {'username' => 'Akshu sabhadiya', 'gender' =>'male'}
-
-        // const bodyObject = {}
-        // for(const [key, value] of params.entries()){
-        //   bodyObject[key] = value
-        // }
         const bodyObject = Object.fromEntries(params)
-        console.log(bodyObject);                      //Output: { username: 'Akshu sabhadiya', gender: 'male' }
+        // fs.writeFileSync('userData.txt',JSON.stringify(bodyObject))       //using writeFileSync is done by Event loop
 
-        fs.writeFileSync('userData.txt',JSON.stringify(bodyObject))       //using writeFileSync is done by Event loop
-      })
-
-      res.statusCode = 302
-      res.setHeader('location','/')
+        fs.writeFile('userData.txt', JSON.stringify(bodyObject), ()=> {
+          console.log("Data written successfully");
+          res.statusCode = 302
+          res.setHeader('location','/')
+          return res.end()
+        })
+      })      
+  } else{
+      res.write('<html>')
+      res.write('<head><title> Akshu Server </title></head>')
+      res.write("<body><h1> Hello!! Welcome to Akshu's Home page </h1></body>")
+      res.write('</html>')
+      res.end()
   }
 
-  res.write('<html>')
-  res.write('<head><title> Akshu Server </title></head>')
-  res.write("<body><h1> Hello!! Welcome to Akshu's Home page </h1></body>")
-  res.write('</html>')
-  res.end()
-  
 }
 
 module.exports = userRequestHandler
