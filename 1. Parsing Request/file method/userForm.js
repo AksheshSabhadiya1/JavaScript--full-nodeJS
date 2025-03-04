@@ -4,6 +4,7 @@ const fs = require('fs')
 const userRequestHandler = (req, res)=>{
   console.log("req url: ",req.url);
   console.log("req method: ", req.method);
+  // console.log('req headers: ', req.headers);
   
   res.setHeader('Content-Type','text/html')
   
@@ -34,24 +35,42 @@ const userRequestHandler = (req, res)=>{
         const fullBody = Buffer.concat(body).toString()
         const params = new URLSearchParams(fullBody)
         const bodyObject = Object.fromEntries(params)
+        // fs.writeFileSync('userData.txt',JSON.stringify(bodyObject))        //using writeFileSync is done by Event loop
 
-        fs.writeFileSync('userData.txt',JSON.stringify(bodyObject))       
-      })
-
-      res.statusCode = 302
-      res.setHeader('location','/')
+        fs.writeFile('userData.txt', JSON.stringify(bodyObject), ()=> {       //using writeFile is done by worker-pool
+          console.log("Data written successfully");
+          res.statusCode = 302
+          res.setHeader('location','/')
+          return res.end()
+        })
+      })      
+  } else{
+      res.write('<html>')
+      res.write('<head><title> Akshu Server </title></head>')
+      res.write("<body><h1> Hello!! Welcome to Akshu's Home page </h1></body>")
+      res.write('</html>')
+      res.end()
   }
 
-  res.write('<html>')
-  res.write('<head><title> Akshu Server </title></head>')
-  res.write("<body><h1> Hello!! Welcome to Akshu's Home page </h1></body>")
-  res.write('</html>')
-  res.end()
-  
 }
 
 module.exports = userRequestHandler
 
 
+//~~ multiple exports using object
+/*  module.exports = {
+        handler: userRequestHandler,
+        Extra : 'extra items',
+        functions : () => {}
+    } */
 
+//~~ Setting multiple properties
+/*  module.exports.handler = userRequestHandler
+    module.exports.Extra = "extra items"
+    module.exports.functions = () => {} */
+
+//~~ Shortcut
+/*  exports.handler = userRequestHandler
+    exports.Extra = 'extra items'
+    exports.functions = () => {} */
 
