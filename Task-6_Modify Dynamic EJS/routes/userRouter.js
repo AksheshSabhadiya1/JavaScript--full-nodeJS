@@ -11,7 +11,7 @@ userRouter.use(express.static(path.join(rootDir,'public')))
 userRouter.get('/',(req, res, next)=>{
   console.log(registarProducts);
   // res.sendFile(path.join(rootDir, 'views', 'ProductHome.html'))
-    res.render('ProductHome',{registarProducts: registarProducts, pageTitle: 'Product Cart HomePage'})
+    res.render('ProductHome',{registarProducts: registarProducts, pageTitle: 'Product Cart HomePage', currentPage: 'ProductHome'})
 })
 
 
