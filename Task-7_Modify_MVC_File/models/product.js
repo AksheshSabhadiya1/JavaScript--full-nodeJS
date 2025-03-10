@@ -14,9 +14,15 @@ module.exports = class Product {
   }
 
   save(){
-    this.id = Math.floor( Math.random() * 1000).toString()
     Product.fetchAll(registarProducts => {
-      registarProducts.push(this);
+      if(this.id){ //edit product
+        registarProducts = registarProducts.map(product => product.id === this.id ? this : product)
+
+      }else { //add product
+        this.id = Math.floor( Math.random() * 1000).toString()
+        registarProducts.push(this);
+      }
+
       fs.writeFile(filepath, JSON.stringify(registarProducts), (error)=>{
         console.log(error);
       })
@@ -35,4 +41,21 @@ module.exports = class Product {
       callback(productFound)
     })
   }
+
+  static deleteById(productId, callback){
+    this.fetchAll(Products => {
+      Products = Products.filter(item => item.id !== productId)
+      fs.writeFile(filepath, JSON.stringify(Products), callback)
+    })
+  }
+
+  
+
+  // static setFavourite(productid, callback) {
+  //   Product.fetchAll(Products => {
+  //     const productFound = Products.find(item => item.id === productid)
+  //     console.log(productFound);
+  //     callback(productFound)
+  //   })
+  // }
 }

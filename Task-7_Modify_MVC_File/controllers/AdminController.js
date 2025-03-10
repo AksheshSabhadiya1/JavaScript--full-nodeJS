@@ -1,10 +1,31 @@
 const Product = require("../models/product");
 
 exports.getAddProducts = (req, res, next) => {
-  res.render("admin/AddProduct", {
+  res.render("admin/EditProduct", {
     pageTitle: "Add Product",
     currentPage: "AddProduct",
+    editing: false,
   });
+};
+
+exports.getEditProducts = (req, res, next) => {
+  const productId = req.params.productid              // id
+  const editing = req.query.editing === 'true'       // query parameter
+  console.log(productId, editing);
+
+  Product.findById(productId, product => {
+    if(!product){
+      console.log("Product Not Found");
+      return res.redirect("/admin/admin-productlist")
+    }
+    console.log(productId, editing, product);
+    res.render("admin/EditProduct", {
+      product: product,
+      pageTitle: "Edit Product",
+      currentPage: "admin-productlist",
+      editing: editing,
+    });
+  })
 };
 
 exports.postAddProducts = (req, res, next) => {
@@ -16,11 +37,22 @@ exports.postAddProducts = (req, res, next) => {
     productImageURL
   );
   product.save();
-  res.render("admin/ProductAdded", {
-    pageTitle: "Product Added",
-    currentPage: "ProductAdded",
-  });
+  res.redirect('/admin/admin-productlist')
 };
+
+exports.postEditProducts = (req, res, next) =>{
+  const { id, productName, productPrice, productRating, productImageURL } = req.body;
+  const product = new Product(
+    productName,
+    productPrice,
+    productRating,
+    productImageURL
+  );
+  product.id = id
+  product.save();
+  res.redirect('/admin/admin-productlist')
+}
+
 
 exports.getAdminAllProductsList = (req, res, next) => {
   Product.fetchAll((registarProducts) =>
@@ -30,4 +62,15 @@ exports.getAdminAllProductsList = (req, res, next) => {
       currentPage: "admin-productlist",
     })
   );
+};
+
+
+exports.postDeleteProducts = (req, res, next) => {
+  const productid = req.params.productid
+  Product.deleteById(productid, error => {
+    if(error){
+      console.log(error);
+    }
+  })
+  res.redirect('/admin/admin-productlist')
 };

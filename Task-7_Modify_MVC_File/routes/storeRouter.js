@@ -15,4 +15,7 @@ storeRouter.get('/product-list', storeController.getAllProductsList)
 
 storeRouter.get('/product-details/:productId', storeController.getProductDetails)
 
+storeRouter.post('/favourite-list', storeController.postAddFavourites)
+storeRouter.post('/favourite-list/remove/:productid', storeController.postRemoveFavourites)
+
 module.exports = storeRouter

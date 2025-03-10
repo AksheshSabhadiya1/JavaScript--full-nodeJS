@@ -1,3 +1,4 @@
+const Favourite = require("../models/favourite");
 const Product = require("../models/product");
 
 exports.getAllProducts = (req, res, next) => {
@@ -11,7 +12,6 @@ exports.getAllProducts = (req, res, next) => {
 };
 
 exports.getAllProductsList = (req, res, next) => {
-
   Product.fetchAll((registarProducts) =>
     res.render("store/Product-list", {
       registarProducts: registarProducts,
@@ -19,20 +19,6 @@ exports.getAllProductsList = (req, res, next) => {
       currentPage: "product-list",
     })
   );
-};
-
-exports.getCartData = (req, res, next) => {
-  res.render("store/Cart-list", {
-    pageTitle: "Cart List",
-    currentPage: "cart-list",
-  });
-};
-
-exports.getFavouriteData = (req, res, next) => {
-  res.render("store/Favourite-list", {
-    pageTitle: "Favourite List",
-    currentPage: "favourite-list",
-  });
 };
 
 exports.getProductDetails = (req, res, next) => {
@@ -50,3 +36,44 @@ exports.getProductDetails = (req, res, next) => {
     }
   });
 };
+
+exports.getCartData = (req, res, next) => {
+  res.render("store/Cart-list", {
+    pageTitle: "Cart List",
+    currentPage: "cart-list",
+  });
+};
+
+exports.getFavouriteData = (req, res, next) => {
+  Favourite.getFavourite((favourite) => {
+    Product.fetchAll((products)=>{
+      // const favouriteList = products.filter(item => item.id === favourite.id)
+      const favouriteList = favourite?.map(productid => products.find(item => item.id === productid))
+
+      res.render("store/Favourite-list", {
+        favouriteList: favouriteList,
+        pageTitle: "Favourite List",
+        currentPage: "favourite-list",
+        // favouriteItem: true,
+      });
+    })
+  })
+};
+
+exports.postAddFavourites = (req, res, next) => {
+  Favourite.addToFavourite(req.body.productid, (error)=>{
+    if(error){
+      console.log("Error while adding to favourite: ",error);
+    }
+    res.redirect("/favourite-list")
+  })
+}
+
+exports.postRemoveFavourites = (req, res, next) => {
+  const productid = req.params.productid
+  Favourite.deleteById(productid, error => {
+    console.log(error);
+  })
+  res.redirect('/favourite-list')
+}
+

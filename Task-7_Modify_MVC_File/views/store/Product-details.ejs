@@ -5,10 +5,12 @@
   <main class="w-full mx-auto p-8 bg-gray-50 rounded-lg shadow-2xl mt-25 ">
     <div class="flex md:flex-row items-center p-4 rounded-2xl border border-black ">
       <div class="w-full md:w-1/2">
-        <div class="absolute">
+        <div class="absolute -mt-2">
           <%- include('../partials/favourite') %>
         </div>
-          <img src="<%= product.productImageURL %>" alt="<%= product.productName %>" class="w-80 h-50 object-cover rounded-lg border-1 shadow-lg">
+        <div class="w-full h-full">
+          <img src="<%= product.productImageURL %>" alt="<%= product.productName %>" class="w-85 h-80 object-cover rounded-lg border-1 shadow-lg">
+        </div>
       </div>
       <div class="w-full md:w-1/2 mt-8 md:mt-0 md:pl-8">
         <h1 class="text-6xl capitalize text-indigo-700 font-extrabold mt-0 mb-14"><%= product.productName %></h1>
