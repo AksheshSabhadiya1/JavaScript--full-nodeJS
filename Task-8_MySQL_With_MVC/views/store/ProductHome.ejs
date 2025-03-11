@@ -9,7 +9,7 @@
       <h3 class="text-3xl font-semibold text-center text-black mb-8">🛒 Registered Products</h3>
       <ul class="grid grid-cols-1 sm:grid-cols-5 gap-4">
         <% registarProducts.forEach( product => { %>
-         <a href="/product-details/<%= product.id %>" >
+         <a href="/product-details/<%= product._id %>" >
           <li class="bg-white border text-black shadow-lg rounded-2xl p-4 font-bold hover:shadow-2xl hover:bg-indigo-100 transition-transform transform hover:scale-105">
             <div class="flex flex-col items-center">
               <div class="flex flex-col items-center">

@@ -48,7 +48,7 @@ exports.getFavouriteData = (req, res, next) => {
   Favourite.getFavourite((favourite) => {
     Product.fetchAll((products)=>{
       // const favouriteList = products.filter(item => item.id === favourite.id)
-      const favouriteList = favourite?.map(product => products?.find(item => item.id === product.id))
+      const favouriteList = favourite?.map(product => products?.find(item => item.id === product._id))
       res.render("store/Favourite-list", {
         favouriteList: favouriteList,
         pageTitle: "Favourite List",

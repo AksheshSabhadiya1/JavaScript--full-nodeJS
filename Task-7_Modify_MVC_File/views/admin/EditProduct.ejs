@@ -11,7 +11,7 @@
       <main>
         <form action='/admin/<%= editing ? "edit-product" : "add-product" %>' method='POST' class="space-y-4">
           <div>
-            <input name="id" id="id" type="hidden" value="<%= editing ? product.id : '' %>" />
+            <input name="id" id="id" type="hidden" value="<%= editing ? product._id : '' %>" />
 
             <label for='productName' class="mt-2 block text-lg font-medium text-gray-700">Product Name:</label>
             <input type='text' name='productName' id='productName' placeholder="Enter Product Name"

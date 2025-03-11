@@ -17,7 +17,7 @@ module.exports = class Product {
   save(){
     Product.fetchAll(registarProducts => {
       if(this.id){ //edit product
-        registarProducts = registarProducts.map(product => product.id === this.id ? this : product)
+        registarProducts = registarProducts.map(product => product._id === this.id ? this : product)
 
       }else { //add product
         this.id = Math.floor( Math.random() * 1000).toString()

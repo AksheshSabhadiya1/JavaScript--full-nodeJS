@@ -2,7 +2,7 @@ const Favourite = require("../models/favourite");
 const Product = require("../models/product");
 
 exports.getAllProducts = (req, res, next) => {
-  Product.fetchAll().then(([registarProducts])=>{
+  Product.fetchAll().then(registarProducts =>{
     res.render("store/ProductHome", {
       registarProducts: registarProducts,
       pageTitle: "Product Cart HomePage",
@@ -12,7 +12,7 @@ exports.getAllProducts = (req, res, next) => {
 };
 
 exports.getAllProductsList = (req, res, next) => {
-  Product.fetchAll().then(([registarProducts])=>{
+  Product.fetchAll().then(registarProducts =>{
     res.render("store/Product-list", {
       registarProducts: registarProducts,
       pageTitle: "Product List",
@@ -24,8 +24,7 @@ exports.getAllProductsList = (req, res, next) => {
 exports.getProductDetails = (req, res, next) => {
   const productId = req.params.productId;
 
-  Product.findById(productId).then(([products]) => {
-    const product = products[0]
+  Product.findById(productId).then(product => {
     if (product) {
       res.render("store/Product-details", {
         product,
@@ -33,9 +32,10 @@ exports.getProductDetails = (req, res, next) => {
         currentPage: "product-details",
       });
     } else {
+      console.log("Product not found");
       res.redirect("/product-list");
     }
-  });
+  })
 };
 
 exports.getCartData = (req, res, next) => {
@@ -47,7 +47,7 @@ exports.getCartData = (req, res, next) => {
 
 exports.getFavouriteData = (req, res, next) => {
   Favourite.getFavourite((favourite) => {
-    Product.fetchAll().then(([products])=>{
+    Product.fetchAll().then(products =>{
       // const favouriteList = products.filter(item => item.id === favourite.id)
       const favouriteList = favourite?.map(product => products?.find(item => item.id === product._id))
       res.render("store/Favourite-list", {
