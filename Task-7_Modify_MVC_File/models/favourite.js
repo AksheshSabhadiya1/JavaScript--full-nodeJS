@@ -10,10 +10,10 @@ module.exports = class Favourite {
   
   static addToFavourite(productid, callback){
     Favourite.getFavourite((favourite)=>{
-      if(favourite.includes(productid)){
+      if(favourite.find(item => item.id === productid)){
         callback("product already marked as favourite");
       }else{
-        favourite.push(productid)
+        favourite.push({id: productid})
         fs.writeFile(favouritepath, JSON.stringify(favourite),callback)
       }
     })
@@ -25,9 +25,9 @@ module.exports = class Favourite {
     })
   }
 
-  static deleteById(delproductId, callback){
+  static removeById(delproductId, callback){
       Favourite.getFavourite(Productids => {
-        Productids = Productids.filter(itemid => delproductId !== itemid) 
+        Productids = Productids.filter(item => delproductId !== item.id) 
         fs.writeFile(favouritepath, JSON.stringify(Productids), callback)
       })
   }

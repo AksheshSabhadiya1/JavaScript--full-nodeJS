@@ -1,3 +1,4 @@
+const Favourite = require("../models/favourite");
 const Product = require("../models/product");
 
 exports.getAddProducts = (req, res, next) => {
@@ -70,6 +71,10 @@ exports.postDeleteProducts = (req, res, next) => {
   Product.deleteById(productid, error => {
     if(error){
       console.log(error);
+    }else{
+    Favourite.removeById(productid, error => {
+      console.log(error);
+    })
     }
   })
   res.redirect('/admin/admin-productlist')

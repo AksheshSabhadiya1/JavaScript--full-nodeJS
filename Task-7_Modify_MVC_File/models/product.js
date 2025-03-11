@@ -1,6 +1,7 @@
 const path = require('path')
 const rootDir = require('../Utils/PathUtil')
 const fs = require('fs')
+const Favourite = require('../models/favourite')
 
 const filepath = path.join(rootDir, 'data', 'product.json')
 
@@ -31,7 +32,7 @@ module.exports = class Product {
 
   static fetchAll(callback){
     fs.readFile(filepath, (error, data)=>{
-      callback(error ? [] : JSON.parse(data))    
+      callback(!error ? JSON.parse(data) : [])    
     })
   }
 

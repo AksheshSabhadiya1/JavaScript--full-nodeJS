@@ -48,13 +48,11 @@ exports.getFavouriteData = (req, res, next) => {
   Favourite.getFavourite((favourite) => {
     Product.fetchAll((products)=>{
       // const favouriteList = products.filter(item => item.id === favourite.id)
-      const favouriteList = favourite?.map(productid => products.find(item => item.id === productid))
-
+      const favouriteList = favourite?.map(product => products?.find(item => item.id === product.id))
       res.render("store/Favourite-list", {
         favouriteList: favouriteList,
         pageTitle: "Favourite List",
         currentPage: "favourite-list",
-        // favouriteItem: true,
       });
     })
   })
@@ -71,8 +69,10 @@ exports.postAddFavourites = (req, res, next) => {
 
 exports.postRemoveFavourites = (req, res, next) => {
   const productid = req.params.productid
-  Favourite.deleteById(productid, error => {
-    console.log(error);
+  Favourite.removeById(productid, error => { 
+    if(error){
+      console.log(error);
+    }
   })
   res.redirect('/favourite-list')
 }

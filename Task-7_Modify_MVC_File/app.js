@@ -1,7 +1,7 @@
 
 const express = require('express')
 const app = express()
-const port = 4000
+const port = 3000
 const storeRouter = require('./routes/storeRouter')
 const adminRouter = require('./routes/adminRouter')
 const path = require('path')
