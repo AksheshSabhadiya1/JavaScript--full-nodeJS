@@ -49,9 +49,7 @@ exports.getFavouriteData = (req, res, next) => {
   Favourite.getFavourite().then((favourite) => {
     favourite = favourite.map((fav) => fav.productid);
     Product.fetchAll().then((products) => {
-      const favouriteList = products.filter((item) =>
-        favourite.includes(item._id.toString())
-      );
+      const favouriteList = products.filter((item) => favourite.includes(item._id.toString()));
       res.render("store/Favourite-list", {
         favouriteList: favouriteList,
         pageTitle: "Favourite List",
@@ -64,13 +62,12 @@ exports.getFavouriteData = (req, res, next) => {
 exports.postAddFavourites = (req, res, next) => {
   const productid = req.body.productid;
   const fav = new Favourite(productid);
-  fav
-    .save()
+  fav.save()
     .then(() => {
       console.log("Add to Favourite Sucessfully");
     })
-    .catch((error) => {
-      console.log(error);
+    .catch(() => {
+      console.log("Already Marked as favourite");
     })
     .finally(() => {
       res.redirect("/favourite-list");
