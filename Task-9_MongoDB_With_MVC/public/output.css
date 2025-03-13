@@ -10,7 +10,9 @@
     --color-blue-400: oklch(0.707 0.165 254.624);
     --color-blue-500: oklch(0.623 0.214 259.815);
     --color-blue-600: oklch(0.546 0.245 262.881);
+    --color-blue-200: oklch(0.882 0.059 254.128);
     --color-indigo-100: oklch(0.93 0.034 272.788);
+    --color-blue-300:oklch(0.809 0.105 251.813);
     --color-indigo-300: oklch(0.785 0.115 274.713);
     --color-indigo-700: oklch(0.457 0.24 277.023);
     --color-gray-50: oklch(0.985 0.002 247.839);
@@ -565,6 +567,15 @@
   .bg-green-400 {
     background-color: var(--color-green-400) /* oklch(0.792 0.209 151.711) = #05df72 */;
   }
+  .bg-blue-500 {
+    background-color: var(--color-blue-500) /* oklch(0.623 0.214 259.815) */;
+  }
+  .py-4 {
+    padding-block: calc(var(--spacing) * 4) /* 1rem = 16px */;
+  }
+  .bg-blue-200 {
+    background-color: var(--color-blue-200) /* oklch(0.882 0.059 254.128) */;
+  }
   .hover\:bg-red-600 {
     &:hover {
       @media (hover: hover) {
@@ -656,12 +667,46 @@
   .-mb-5 {
     margin-bottom: calc(var(--spacing) * -5) /* -1.25rem = -20px */;
   }
+  .bg-blue-300 {
+    background-color: var(--color-blue-300) /* oklch(0.809 0.105 251.813) */;
+  }
+  .justify-between {
+    justify-content: space-between;
+  }
+  .bg-blue-500 {
+    background-color: var(--color-blue-500) /* oklch(0.623 0.214 259.815) */;
+  }
   .hover\:bg-green-400 {
     &:hover {
       @media (hover: hover) {
         background-color: var(--color-green-400) /* oklch(0.792 0.209 151.711) = #05df72 */;
       }
     }
+  }
+  .sm\:grid-cols-2 {
+    @media (width >= 40rem /* 640px */) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  .sm\:grid-cols-3 {
+    @media (width >= 40rem /* 640px */) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  .gap-3 {
+    gap: calc(var(--spacing) * 3) /* 0.75rem = 12px */;
+  }
+  .gap-5 {
+    gap: calc(var(--spacing) * 5) /* 1.25rem = 20px */;
+  }
+  .mt-4 {
+    margin-top: calc(var(--spacing) * 4) /* 1rem = 16px */;
+  }
+  .mb-4 {
+    margin-bottom: calc(var(--spacing) * 4) /* 1rem = 16px */;
+  }
+  .mb-8 {
+    margin-bottom: calc(var(--spacing) * 8) /* 2rem = 32px */;
   }
   @property --tw-border-style {
     syntax: "*";

@@ -1,3 +1,4 @@
+const Cart = require("../models/cart");
 const Favourite = require("../models/favourite");
 const Product = require("../models/product");
 
@@ -39,11 +40,45 @@ exports.getProductDetails = (req, res, next) => {
 };
 
 exports.getCartData = (req, res, next) => {
-  res.render("store/Cart-list", {
-    pageTitle: "Cart List",
-    currentPage: "cart-list",
-  });
+  Cart.getCart().then((cartData)=>{
+    cartData = cartData.map((cart)=> cart.productid);
+    Product.fetchAll().then((products)=>{
+      const cartList = products.filter((item) => cartData.includes(item._id.toString()))
+      res.render("store/Cart-list", {
+        cartList: cartList,
+        pageTitle: "Cart List",
+        currentPage: "cart-list",
+      });
+    })
+  })
 };
+
+exports.postCartData = (req, res, next) => {
+  const productid = req.body.productid;
+  const cart = new Cart(productid)
+  cart.save().then(() => {
+    console.log("Add to cart Sucessfully");
+  })
+  .catch(() => {
+    console.log("Already avialable in cart");
+  })
+  .finally(() => {
+    res.redirect("/cart-list");
+  });
+}
+
+exports.removeCartData = (req, res, next) => {
+  const productid = req.params.productid;
+  Cart.removeById(productid).then(() => {
+    console.log("Delete Sucessfully");
+  })
+  .catch((error) => {
+    console.log(error);
+  })
+  .finally(() => {
+    res.redirect("/cart-list");
+  });
+}
 
 exports.getFavouriteData = (req, res, next) => {
   Favourite.getFavourite().then((favourite) => {
