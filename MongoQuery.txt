@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Create database 
 -->> use database_name      
@@ -662,4 +663,670 @@ db.cars.createIndex({maker:1})
 db.cars.getIndexes("maker_1")
 
 # remove indexes
+=======
+
+# Create database 
+-->> use database_name      
+Ex. use car_dealer
+
+
+# Create Collection
+-->> db.createCollection("collection_name")
+Ex. db.createCollection("cars")
+
+
+
+
+## CRUD operation
+
+# Create -- insertOne, insertMany
+
+-->> db.collection_name.insertOne( {  "maker": "Tata",
+                                      "model": "Nexon",
+                                      "fuel_type": "Petrol",
+                                      "transmission": "Automatic",
+                                      "engine": { "type": "Turbocharged", "cc": 1199, "torque": "170 Nm" },
+                                      "features": [ "Touchscreen", "Reverse Camera", "Bluetooth Connectivity" ],
+                                      "sunroof": false,
+                                      "airbags": 2,
+                                    })
+
+-->> db.collection_name.insertMany( { "maker": "Hyundai",
+                                      "model": "Creta",
+                                      "fuel_type": "Diesel",
+                                      "transmission": "Manual",
+                                      "engine": { "type": "Naturally Aspirated", "cc": 1493, "torque": "250 Nm" },
+                                      "features": ["Sunroof","Leather Seats","Wireless Charging","Ventilated Seats","Bluetooth"],
+                                      "sunroof": true,
+                                      "airbags": 6
+                                    },
+                                    {
+                                      "maker": "Mahindra",
+                                      "model": "XUV500",
+                                      "fuel_type": "Diesel",
+                                      "transmission": "Manual",
+                                      "engine": { "type": "Turbocharged", "cc": 2179, "torque": "360 Nm" },
+                                      "features": [ "All-Wheel Drive", "Navigation System", "Cruise Control" ],
+                                      "sunroof": true,
+                                      "airbags": 6
+                                    } )
+
+
+
+# Read -- find, findOne
+
+-->> db.collection_name.find()                                 // return all documents
+
+-->> db.collection_name.find({model:"Creta"})                   // return only matched document
+
+-->> db.collection_name.find({}, {model:1, maker:1, _id:0})       // it's match with all documents, here 1=true and 0=false it's call projection
+
+-->> db.collection_name.find().pretty()                        // show data in better format
+
+
+-->> db.collection_name.findOne()                              // return first documents
+
+-->> db.collection_name.findOne({"fuel_type":"Diesel"})              // return one match documents
+
+
+
+# Update -- updateOne, updateMany
+
+-->> db.collection_name.updateOne( {"model":"Nexon"},                                       // Update individual field
+                                   {$set : {"color":"red"}} )
+
+-->> db.collection_name.updateOne( {'model':'Nexon'},                                       // remove field
+                                   {$unset: {"color":""}} )
+
+-->> db.collection_name.updateOne({model:"Nexon"},                                          // add into array
+                                  {$push: { features : "Heated seats"}} )
+
+-->> db.collection_name.updateOne({model:"Nexon"},                                           // remove from array
+                                  {$pull: { features : "Heated seats"}} )
+
+-->> db.collection_name.updateOne( {model:"Nexon"},                                          // Updating Multiple values in array
+                                   {$push: { features : {$each: ["Wireless Charging", "Voice Control","Ventilated"]}}} )                             
+
+
+//Upsert --> combination of update+insert
+         --> If no document matched the query criteria, MongoDB will insert new document into Collection
+
+-->> db.collection_name.updateMany( {model:"Venue"},
+                                    {$set: {maker: "Hyundai"}},
+                                    {upsert: true} )
+
+
+# Delete -- deleteOne, deleteMany
+
+-->> db.collection_name.deleteOne( {model:"Venue"} )
+-->> db.collection_name.deleteMany( {fuel_type:"Petrol"} )
+
+
+
+
+
+# MongoDB DataTypes 
+--> String, 
+    ObjectId, 
+    Integer, 
+    Double, 
+    Array, 
+    Boolean, 
+    Object, 
+    Decimal128,
+    Int32,
+    Int64,
+    Long,
+    Date,
+    Timestamp,
+  
+
+--> db.collection_name.insertOne({date: new Date()})
+
+
+
+
+
+
+# MongoDB Operators
+
+# Comparision Operators :- 
+  <   -- $lt
+  >   -- $gt
+  <=  -- $lte
+  >=  -- $gte
+  =   -- $eq
+  !=  -- $ne
+
+Q. 1 Find the cars details with engine more than 1400cc
+----> db.cars.find({"engine.cc": {$gt:1400}}) 
+
+
+
+# $in, $nin
+Q. 2 Find the cars details with engine having 1498cc and 2179cc
+----> db.cars.find({"engine.cc": {$in:[1498,2179]}})
+
+Q. 3 Find the cars details with engine not having 1498cc and 2179cc
+----> db.cars.find({"engine.cc": {$nin:[1498,2179]}})
+
+
+
+# AND :- $and, OR :- $or, NOR :- $nor, NOT :- $not
+
+//$and
+Q. 4  I want a car which has Diesel, Sunroof and Turbocharged Engine
+----> db.cars.find({$and: [{fuel_type: "Diesel"}, {"engine.type": "Turbocharged"}, {Sunroof: true}]})
+
+//$or
+Q. 5  I want a car which has either Diesel or Turbocharged Engine
+----> db.cars.find({$or: [{fuel_type:"Diesel"},{"engine.type":"Turbocharged"}]}) 
+
+//$nor
+Q. 5  I want a car which has neither Diesel nor Turbocharged Engine
+----> db.cars.find({$nor: [{fuel_type:"Diesel"},{"engine.type":"Turbocharged"}]})
+
+//$not
+Q. 6  I want a car which has not Diesel type
+----> db.cars.find({fuel_type: {$not: {$eq: "Diesel"}}})
+
+
+
+
+# $exists :- check field is exists or not in documents
+Q. 7  I want a car which has company fitted AC 
+----> db.cars.find({AC: {$exists: true}})
+
+# $type :- filter content based on BSON datatypes like string, boolean, integer etc
+#       :- this is useful to find field with null values
+Q. 8  I want car detail fields which contain int
+----> db.cars.find({airbags: {$type: "int"}})
+
+
+
+# Array Operators
+
+# $size :- return all documents that match specified array size
+Q. 9  I want car details has no. of features is 5
+----> db.cars.find({features: {$size:5}})
+
+# $all :- return all documents that match the pattern 
+Q. 10  I want a car details which has Wireless Charging features
+----> db.cars.find({features: {$all: ['Wireless Charging']}})
+
+
+
+# Cursor Methods  :- count(), sort(), limit(), skip()
+
+# count()
+----> db.cars.find().count()
+
+# sort()
+----> db.cars.find().sort({model:1})    //ascending
+----> db.cars.find().sort({model:-1})   //descanding
+
+# limit()
+----> db.cars.find().limit(2)
+
+# skip()
+----> db.cars.find().skip(4)
+
+
+
+
+
+## Aggregate Framework  :- It's a powerful framework for complex operations like filtering, grouping, sorting, reshaping, summarizing data in flexible way via pipeline.
+
+// Most Commonly used MongoDB Aggregation,
+$match 
+$group
+$project
+$sort
+$limit
+$unwind
+$lookup
+$addFields
+$count
+$skip
+
+
+# $group
+
+Q. 11  print all cars brand
+----> db.carData.aggregate([ { $group: 
+                                  { 
+                                    _id: "$maker",
+                                  } 
+                              }])
+
+Q. 12  Find sum of individual brand
+----> db.carData.aggregate([ { $group: 
+                                  {
+                                    _id: "$maker",
+                                    Totalsum: {$sum:1},             // $sum:1 count the no. of documents in each group
+                                  }
+                              }])
+
+Q. 13  Find the Average, MinPrice, MaxPrice, AmountList, uniqueamount of individual brand
+----> db.carData.aggregate([ { $group: 
+                                  {
+                                    _id: "$maker",
+                                    Average: {$avg: "$price"},
+                                    MinPrice: {$min: "$price"},
+                                    MaxPrice: {$max: "$price"},
+                                    AmountList: {$push: "$price"},
+                                    uniqueamount: {$addToSet: "$price"}                                      
+                                  }
+                              }])
+          
+Q. 14  Find the number of car based on fuel_type
+----> db.carData.aggregate([ { $group: 
+                                  {
+                                    _id: "$fuel_type",
+                                    TotalCars: {$sum:1},
+                                  }
+                              }])
+
+
+
+# $match
+
+Q. 15  Find Hyundai cars having engine of more than 1000cc
+----> db.carData.aggregate([ {  $match: 
+                                    {
+                                      "maker":"Hyundai",
+                                      "engine.cc": {$gt: 1000},
+                                    }
+                              }])
+
+                              
+
+# $count
+
+Q. 16  Find total no. of Tata cars 
+----> db.carData.aggregate([ {$match: { "maker":"Tata"}},
+                             {$count: "Totalcars"}
+                          ])
+
+
+
+# using Multiple aggregate
+
+Q. 17 Find no. of Petrol & Diesel cars of Hyundai brand
+----> db.carData.aggregate([ {$match : {"maker":"Hyundai"}},
+                             
+                             {$group: {
+                              _id: "$fuel_type",
+                              TotalCars: {$sum:1}
+                             }},
+                             
+                             {$match: {_id: {$ne: 'Electric'}}}
+                          ])
+
+
+
+# $project  :- it's just like projection means print only specific fields
+
+Q. 18 Find all Hyundai cars and show only makers, model and fuel_type details
+----> db.carData.aggregate([ {$match: {maker: "Hyundai"}},
+                             {$project: { maker:1, model:1, fuel_type:1, _id:0 }}
+])
+
+
+
+# $sort
+Q. 19 Use Q.18 result data for sorting & sorting based on model
+----> db.carData.aggregate([{ $match: {maker:"Hyundai"}},
+                            { $project: { maker:1, model:1, fuel_type:1, _id:0 }},
+                            { $sort: {model:1} }
+])
+
+
+# $limit
+----> db.carData.aggregate([{ $match: {maker:"Hyundai"}},
+                            { $project: { maker:1, model:1, fuel_type:1, _id:0}},
+                            { $limit:2}  
+])
+
+
+# $skip
+----> db.carData.aggregate([{ $match: {maker:"Hyundai"}},
+                            { $project: { maker:1, model:1, fuel_type:1, _id:0}},
+                            { $skip:2}  
+])
+
+
+# $sortByCount
+Q. 20 Group the cars by maker and then sort based on count(no. of cars)
+----> db.carData.aggregate([ { $sortByCount:"$maker"}
+])
+
+// Other Way of sortByCount
+----> db.carData.aggregate([ {$group: {_id:"$maker", TotalCars: {$sum:1}}}, 
+                             {$sort: {TotalCars:-1}}])
+
+
+# $unwind  :- we have multiple owners(list of documents) for each car, now if you want to work with each owner then use unwind
+db.carData.aggregate([ {$unwind: "$owners"}])
+
+
+
+
+## String Operators
+$concat
+$toUpper, $toLower
+$regexMatch
+$ltrim, $rtrim, $trim
+$split
+
+
+# $concat
+Q. 21  Print all Hyundai cars and print with maker+model format
+----> db.carData.aggregate([ {$match: {maker:"Hyundai"}}, 
+                             {$project: { _id:0, 
+                                         "maker+model": {$concat: ["$maker"," ","$model"]}
+                                        }
+                              }
+                            ])
+
+                  
+# $toUpper, $toLower
+Q. 22  Print all Tata cars and print model fields in uppercase
+----> db.carData.aggregate([ {$match: {maker: "Tata"}}, 
+                             {$project: { _id:0,
+                                          "model": {$toUpper: "$model"}
+                                        }}
+                            ])
+
+
+Q. 23 Print all Hyundai cars concat with maker+model also in uppercase
+
+//Type-1
+----> db.carData.aggregate([ {$match: {maker: "Hyundai"}},
+                             {$project: {
+                                          _id:0,
+                                          "maker+model in uppercase": {$toUpper: {$concat: ["$maker"," ","$model"]}}
+                             }}
+                          ])
+
+//Type-2
+----> db.carData.aggregate([ {$match: {maker: "Hyundai"}},
+                             {$project: { _id:0,
+                                          "maker+model": {$concat: ["$maker"," ","$model"]}                                          
+                                        }},
+                             {$project: { _id:0,
+                                          "uppercase": {$toUpper: "$maker+model"}
+                                        }}
+                              ])
+
+      
+# $regexMatch
+Q. 24  Add a flag is_diesel=true/false for each car
+----> db.carData.aggregate([ {$project: { _id:0, 
+                                          maker:1, 
+                                          model:1, 
+                                          is_Diesel: {$regexMatch: { input:"$fuel_type",
+                                                                     regex:"Die"
+                                                                    }}
+                                        }}])
+
+
+
+# $out   :- After aggregating, store the result in another Collection 'hyundai_cars'
+----> db.carData.aggregate([ {$match: {maker: "Hyundai"}},
+                             {$project: { _id:0,
+                                          maker:1,
+                                          model:1,
+                                          "maker+model": {$concat: ["$maker"," ","$model"]}
+                                        }},
+                              {$out: "hyundai_cars"}          
+                            ])
+
+
+
+
+# $trim    :- remove whitespace, \n, \t
+# $ltrim   :- remove only leftside whitespace, \n, \t
+# $rtrim   :- remove only rightside whitespace, \n, \t
+
+----> db.carData.aggregate([ {$project: { _id:0,
+                              "maker+model": {$trim: {input: "\n  Hello \t"}}             //output:-   "Hello"
+                            }
+                }])
+
+
+----> db.carData.aggregate([ {$project: { _id:0,
+                                          "maker+model": {$ltrim: {input: "\n  Hello \t"}}     //output:-   "Hello  \t"
+                                        }
+                              }])
+
+
+----> db.carData.aggregate([ {$project: { _id:0,
+                                          "maker+model": {$rtrim: {input: "\n  Hello \t"}}   //output:-   "\n  Hello"
+                                        }
+                            }])
+
+
+
+
+# $split
+----> db.carData.aggregate([ {$project: { _id:0,
+                                          "splitResult": {$split: ["$features",","]}
+                                        }
+                              }])
+
+
+----> db.carData.aggregate([ {$match: 
+                                    {$or: [ {"maker":"Hyundai"}, 
+                                            {"maker":"Tata"}]
+                                    }}, 
+                              {$project: { _id:0,
+                                           "splitResult": {$split: ["$model"," "]}
+                                         }
+                              }])
+
+
+
+
+
+## Arithmatic Operators
+$add
+$subtract
+$divide
+$multiply
+$round
+$abs  :- return positive value
+$ceil :- return smallest integer
+
+
+
+# $add
+Q. 25  print all the cars model and price with hike(add) of 55000
+----> db.carData.aggregate([{$project: {_id:0, model:1, price:1, updatePrice: {$add: ["$price", 55000]}}}])
+
+# $subtract
+Q. 26  print all the cars model and price with less of 55000
+----> db.carData.aggregate([{$project: {_id:0, model:1, price:1, updatePrice: {$subtract: ["$price", 55000]}}}])
+
+# $divide
+Q. 26  print all the cars model and price divide with 55000
+----> db.carData.aggregate([{$project: {_id:0, model:1, price:1, updatePrice: {$divide: ["$price",55000]}}}])
+
+# $multiply
+Q. 26  print all the cars model and price multiply with 5000
+----> db.carData.aggregate([{$project: {_id:0, model:1, price:1, updatePrice: {$multiply: ["$price",5000]}}}])
+
+# $round
+Q. 26  print all the cars model and price divide with 55000 also round it
+----> db.carData.aggregate([{$project: {_id:0, model:1, price:1, updatePrice: {$round: {$divide: ["$price",5000]}}}}])
+
+
+
+
+
+# addFields/set
+
+Q. 26  Using addFields to print all the cars model, price and price divide with 100000 and concat lacs
+----> db.carData.aggregate([ {$project: {_id:0, model:1, price:1}}, 
+                             {$addFields: 
+                                        {price_in_lacs: 
+                                                    {$concat: 
+                                                            [{$toString: {$divide: ["$price", 100000] }}," ", "lacs"]
+                                                      }                                                          
+                                        }}])
+
+
+Q. 27 Calculate total service cost of each Hyundai car
+----> db.carData.aggregate([ {$match: {maker:"Hyundai"}}, 
+                             {$addFields: {total_service_cost: {$sum: "$service_history.cost"} }},
+                             {$project: {_id:0, model:1, total_service_cost:1} }
+])
+
+
+
+
+
+# Condition 
+$cond
+$switch
+$ifNull :- if fields has null or missing(empty) value, it's fill with particular value
+
+
+# $cond
+----> db.carData.aggregate([ {$project: { _id:0, 
+  TotalOwners: {$cond: {if: {$isArray: "$owners"}, then: {$size: "$owners"}, else:"NA"}}
+}
+}])
+
+Q. 28  Suppose we want to check if car's fuel_type is "Petrol" and categorize the cars into "Petrol Car" & "Non-Petrol Car" 
+----> db.carData.aggregate([{$addFields: {car_fuel_type:
+                                             {$cond: 
+                                                { if: {$eq: ["$fuel_type" , 'Petrol']}, then: "Petrol Car", else: "Non-Petrol Car" }
+                                              }
+                                            }
+                                          },
+                            {$project: {_id:0, model:1, fuel_type:1, car_fuel_type:1}}
+                                        ])
+
+
+# $switch
+
+Q. 29  Suppose we want to categorize the price of car into three categories: "Budget", "Midrange", "Premium"
+----> db.carData.aggregate([ {$project: { _id:0, 
+                                          maker:1, 
+                                          model:1,
+                                          price:1,
+                                          priceCategory: { 
+                                            $switch: {
+                                              branches: [
+                                                { case: {$lt: ["$price",500000]}, then: "Budget"},
+                                                { case: {$and: [{$gte: ["$price",500000]}, {$lt: ["$price",1000000]}]}, then: "Mid-Range" },
+                                                { case: {$gte: ["$price",1000000]}, then: "Premium" }
+                                              ],
+                                              default: "Unknown"
+                                          }}                           
+                                        },
+                              }])
+
+
+
+
+## Date Operators
+$dateAdd
+$dateDiff
+$month
+$year
+$hour
+$dateOfMonth
+$dayOfYear
+
+
+
+# $dateAdd
+----> db.carData.aggregate([ {$project: {newDate: {$dateAdd: { startDate: new Date(), unit: "day", amount:7 } } } } ])
+
+
+
+
+## MongoDB Variables
+$$NOW :- usefull for printing current date 
+
+
+
+
+
+
+## MongoDB relationship
+----> db.users.aggregate([ {$lookup: {
+                                from: "orders",             // second document name
+                                localField: "_id",         // common field in first document
+                                foreignField: "user_id",   // common field in second document
+                                as: "orders"               // print result array with this name
+} } ])
+
+
+
+
+
+## Schema Validation
+----> db.createCollection("userData", {
+                validator: {
+                  $jsonSchema: {
+                    bsonType: "object",
+                    required: ["name", "phone"],
+                    properties: {
+                      name: {
+                        bsonType: "string",
+                        description: "Name should be string"
+                      },
+                      phone: {
+                        bsonType: "int",
+                        description: "Phone should be number"
+                      }
+                    }
+                  }
+                }
+})
+
+
+# Update existing Schema Validation
+----> db.runCommand({
+          collMod: "userData",
+          validator: {
+            $jsonSchema: {
+              bsonType: "object",
+              required: ["name", "phone"],
+              properties: {
+                name: {
+                  bsonType: "string",
+                  description: "Name should be string"
+                },
+                phone: {
+                  bsonType: "int",
+                  description: "phone shoud be number"
+                }
+              }
+            }
+          },
+          validationLevel: "strict",                        // strict, moderate
+          validationAction: "error"                         // error, warn
+})
+
+
+
+
+
+## indexes in MongoDB  
+#:-- it's data structure that improve speedup query operations by allow database to quickly access required data.
+#:-- it's first store indexed fields into sorted order, along with pointers to actual documents
+
+
+# create indexes
+db.cars.createIndex({maker:1})
+
+# existing indexes
+db.cars.getIndexes("maker_1")
+
+# remove indexes
+>>>>>>> eb94fb0b7277b9b9ef577d6da965b7245428f076
 db.cars.dropIndexes("maker_1")

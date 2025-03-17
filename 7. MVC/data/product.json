@@ -1,0 +1,14 @@
+[
+  {
+    "productName": "watch3",
+    "productPrice": "5333",
+    "productRating": "5",
+    "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOVkEf4bfTSeeQcnf74o-wSPUEWrtmMEYU4g&s"
+  },
+  {
+    "productName": "watch2",
+    "productPrice": "4232",
+    "productRating": "5",
+    "productImage": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOVkEf4bfTSeeQcnf74o-wSPUEWrtmMEYU4g&s"
+  }
+]

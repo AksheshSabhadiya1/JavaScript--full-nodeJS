@@ -1,0 +1,27 @@
+<header
+  class="text-center mb-8 flex flex-wrap justify-center items-center w-full bg-blue-200 fixed top-0 z-10 overflow-hidden space-x-4 p-2 shadow-md">
+  <a href="/"
+    class="<%= currentPage === 'ProductHome' ? 'bg-blue-400 text-white' : 'bg-white' %> text-blue-500 cursor-pointer border px-6 py-2 me-2 rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-600 hover:text-white">
+    🏠 Home
+  </a>
+  <a href="/product-list"
+    class="<%= currentPage === 'product-list' ? 'bg-blue-400 text-white' : 'bg-white' %> text-blue-500 cursor-pointer border px-6 py-2 me-2 rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-600 hover:text-white">
+    🛍️ Product List
+  </a>
+  <a href="/cart-list"
+    class="<%= currentPage === 'cart-list' ? 'bg-blue-400 text-white' : 'bg-white' %> text-blue-500 border px-6 py-2 me-2 rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-600 cursor-pointer hover:text-white">
+    🛒 Cart
+  </a>
+  <a href="/admin/add-product"
+    class="<%= currentPage === 'add-product' ? 'bg-blue-400 text-white' : 'bg-white' %> text-blue-500 border px-6 py-2 me-2 rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-600 cursor-pointer hover:text-white">
+    ➕ Add Product
+  </a>
+  <a href="/favourite-list"
+    class="<%= currentPage === 'favourite-list' ? 'bg-blue-400 text-white' : 'bg-white' %> text-blue-500 border px-6 py-2 me-2 rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-600 cursor-pointer hover:text-white">
+    🧡
+  </a>
+  <a href="/admin/admin-productlist"
+    class="<%= currentPage === 'admin-productlist' ? 'bg-blue-400 text-white' : 'bg-white' %> text-blue-500 border px-6 py-2 me-2 rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-blue-600 cursor-pointer hover:text-white">
+    Admin Productlist
+  </a>
+</header>

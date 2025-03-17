@@ -1,0 +1,35 @@
+
+<%- include('../partials/head') %>
+</head>
+<body class=" min-h-screen flex flex-col items-center text-white font-sans">
+  <%- include('../partials/header') %> 
+  <main class="mt-15 w-full">
+    <div class="flex justify-center items-center text-center text-blue-500">
+      <%- favouriteList.length === 0 ? include('../partials/Empty.ejs') : '' %>
+    </div>
+    <div class=" mx-auto p-8 bg-gray-50 rounded-lg shadow-2xl">
+      <ul class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+        <% favouriteList.forEach( product => { %>
+          <li class="bg-white border text-black shadow-lg rounded-2xl p-4 font-bold hover:shadow-2xl hover:bg-indigo-100 transition-transform transform hover:scale-105">
+            <div class="flex flex-col items-center">
+              <div class="flex flex-col items-center">
+                <div>
+                  <div class="absolute top-2">
+                    <%- include('../partials/favourite', {product: product}) %>
+                  </div>
+                  <img src="<%= product.productImageURL %>" alt="<%= product.productName %>" class="w-80 h-60  object-cover rounded-lg mb-4 border-1 aspect-square" >
+                </div>
+              <h4 class="text-2xl capitalize text-indigo-700 mb-2"><%= product.productName %></h4>
+              <p class="text-lg text-gray-700">Price: ₹<%= product.productPrice %></p>
+              <p class="text-lg text-black">⭐ Rating: <%= product.productRating %>/5</p>
+              <form action="/favourite-list/remove/<%= product._id %>" method="POST">
+                <button type="submit" class="bg-red-400 text-white border mt-2 py-2 px-3 cursor-pointer rounded-lg text-lg font-bold shadow-lg transition-transform transform hover:scale-105 hover:bg-red-600 hover:text-white">Remove</button>
+              </form>
+              </div>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+  </main>
+</body>
+</html>
