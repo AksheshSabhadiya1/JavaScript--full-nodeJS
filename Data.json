@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "firstname": "John",
+    "lastname": "Doe",
+    "email": "john.doe@example.com",
+    "gender": "Male",
+    "job_title": "Software Engineer"
+  },
+  {
+    "id": 2,
+    "firstname": "Jane",
+    "lastname": "Smith",
+    "email": "jane.smith@example.com",
+    "gender": "Female",
+    "job_title": "Project Manager"
+  },
+  {
+    "id": 3,
+    "firstname": "Michael",
+    "lastname": "Johnson",
+    "email": "michael.johnson@example.com",
+    "gender": "Male",
+    "job_title": "Data Analyst"
+  },
+  {
+    "id": 4,
+    "firstname": "Emily",
+    "lastname": "Davis",
+    "email": "emily.davis@example.com",
+    "gender": "Female",
+    "job_title": "HR Specialist"
+  },
+  {
+    "id": 5,
+    "firstname": "Robert",
+    "lastname": "Brown",
+    "email": "robert.brown@example.com",
+    "gender": "Male",
+    "job_title": "Marketing Coordinator"
+  }
+]
