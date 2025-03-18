@@ -96,3 +96,14 @@ Model_name.findByIdAndDelete()
 
 
 // MVC ( Model, View, Controller )
+
+model :- Interact with Database
+view  :- UI page
+Controller :- connection between model and view 
+
+
+
+// Authentication 
+
+1) statefull    :- which maintain state or data on serverside
+2) stateless    :- which has no state
