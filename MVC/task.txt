@@ -1,0 +1,6 @@
+
+// How MongoDB works......
+
+Schema :- Define the Schema
+    Using Schema do model
+        Using model do CRUD operation
