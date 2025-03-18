@@ -93,3 +93,6 @@ Model_name.findByIdAndDelete()
 
 
 
+
+
+// MVC ( Model, View, Controller )
