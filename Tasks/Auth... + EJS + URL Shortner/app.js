@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const PORT = 5833;
+const PORT = 6833;
 const { MongoDBCon } = require("./database/connection");
 const urlRouter = require("./routes/urlRouter");
 const staticRouter = require('./routes/staticRouter')
