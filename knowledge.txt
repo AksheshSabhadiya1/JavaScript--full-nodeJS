@@ -106,4 +106,7 @@ Controller :- connection between model and view
 // Authentication 
 
 1) statefull    :- which maintain state or data on serverside
+                :- If server restart or state is lost for some reason then all users logout
+                :- It takes memory of server which is harmful
+
 2) stateless    :- which has no state
