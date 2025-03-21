@@ -4,12 +4,12 @@
   <%- include('../partials/head') %>
   <title>Homepage</title>
 </head>
-<body class="bg-light">
+<body class="bg-dark-subtle">
   <%- include('../partials/nav') %>
   <div class="container py-3">
     <h1 class="text-center mb-4">Latest Blogs</h1>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
-      <% blogs.forEach(blog => { %>
+      <% blogs?.forEach(blog => { %>
         <div class="col">
           <div class="card h-100 shadow-sm">
             <img src="<%= blog.coverImageURL %>" class="card-img-top" height="180px" alt="Blog Image">

@@ -60,3 +60,11 @@
     </div>
   </div>
 <% } %>
+
+<% if (locals.msg) { %>
+  <div class="container mt-2">
+    <div class="alert alert-danger" role="alert">
+      <%= locals.msg %>
+    </div>
+  </div>
+<% } %>
