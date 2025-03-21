@@ -110,22 +110,3 @@ Controller :- connection between model and view
                 :- It takes memory of server which is harmful
 
 2) stateless    :- which has no state
-                :- JWT (jsonwebtoken)
-
-
-// JWT ( jsonwebtoken )
---> it's encrypted long string which contains three parts Headers, Payload, Verifiable Signature
-
---> user has a token they can access resources or login
-
---> you can store at localstorage, cookies, sessionStorage in client-side / browser
-
---> Usecase:- Authentication, Authorization, information exchange
-
---> must expire the token
-
-
-
-
-
-// File Upload Library :- Multer
